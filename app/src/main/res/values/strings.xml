@@ -13,6 +13,6 @@
     <string name="favorite_stations">Favorite Stations</string>
     <string name="got_favorite_stations">Got Favorite Stations</string>
     <string name="share_tide_infomation">Share tide information to..</string>
-    <string name="loading_message">Loading only once...Please wait...</string>
+    <string name="loading_message">Loading will be only once...Please wait...</string>
     <string name="no_favorite_message">No favorites yet</string>
 </resources>

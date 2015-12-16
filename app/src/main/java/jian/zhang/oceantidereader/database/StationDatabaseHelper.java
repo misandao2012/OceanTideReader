@@ -30,11 +30,11 @@ public class StationDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table station (_id integer primary key autoincrement, "
-                + "state_name varchar(256), "
-                + "id integer, "
-                + "favorite varchar(256), "
-                + "name varchar(256))");
+        db.execSQL("create table " + TABLE_STATION + " (_id integer primary key autoincrement, "
+                + COLUMN_STATE_NAME + " varchar(256), "
+                + COLUMN_STATION_ID + " integer, "
+                + COLUMN_FAVORITE + " varchar(256), "
+                + COLUMN_NAME + " varchar(256))");
     }
 
     @Override
@@ -67,14 +67,14 @@ public class StationDatabaseHelper extends SQLiteOpenHelper {
         return stations;
     }
 
-    //get the stations grouped by state name
+    // Get the stations grouped by state name
     public StationCursor queryStationsGroupByState() {
         Cursor wrapped = getReadableDatabase().query(TABLE_STATION,
                 null, null, null, COLUMN_STATE_NAME, null, null);
         return new StationCursor(wrapped);
     }
 
-    //get the stations with the specified state name
+    // Get the stations with the specified state name
     public StationCursor queryStationsByState(String stateName) {
         Cursor wrapped = getReadableDatabase().query(TABLE_STATION,
                 null, COLUMN_STATE_NAME + " = ?",
@@ -82,6 +82,7 @@ public class StationDatabaseHelper extends SQLiteOpenHelper {
         return new StationCursor(wrapped);
     }
 
+    // Get all the favorite stations
     public StationCursor queryStationsByFav() {
         Cursor wrapped = getReadableDatabase().query(TABLE_STATION,
                 null, COLUMN_FAVORITE + " = ?",
@@ -97,6 +98,7 @@ public class StationDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    // Get the station by the station Id
     public Station getStationById(String id) {
         StationCursor cursor = queryStationById(id);
         try {

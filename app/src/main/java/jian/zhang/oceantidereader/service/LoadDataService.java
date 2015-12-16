@@ -54,7 +54,9 @@ public class LoadDataService extends Service {
                 Log.e(TAG, e.getMessage());
             }
             setFirstTimeStartFalse();
+            // The loading is finish, then send the broadcast to the activity
             sendFinishBroadcast();
+            // stop the service after data loaded
             stopSelf();
         }
     }

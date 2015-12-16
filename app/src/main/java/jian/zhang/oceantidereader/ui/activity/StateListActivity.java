@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -64,8 +65,7 @@ public class StateListActivity extends AppCompatActivity {
             setupProgressDialog();
             startLoadingDataService();
         } else {
-            updateUI();
-            mProgressBar.setVisibility(View.GONE);
+            loadData();
         }
     }
 
@@ -82,10 +82,28 @@ public class StateListActivity extends AppCompatActivity {
         bundle.putString(Constants.CURRENT_STATE_NAME, mCurrentStateName);
     }
 
-    private void updateUI() {
-        List<Station> stations = StationManager.get(this).getStationsGroupByState();
+    private void loadData() {
+        new LoadDatabaseTask().execute();
+    }
+
+    // Load the data use a task
+    private class LoadDatabaseTask extends AsyncTask<Void, Void, List<Station>> {
+
+        @Override
+        protected List<Station> doInBackground(Void... params) {
+            return StationManager.get(StateListActivity.this).getStationsGroupByState();
+        }
+        @Override
+        protected void onPostExecute(List<Station> stations) {
+            super.onPostExecute(stations);
+            updateUI(stations);
+        }
+    }
+
+    private void updateUI(List<Station> stations){
         StationAdapter adapter = new StationAdapter(stations);
         mStateRecyclerView.setAdapter(adapter);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     private void initViews() {
@@ -96,7 +114,7 @@ public class StateListActivity extends AppCompatActivity {
     }
 
     private void initVariables(Bundle savedInstanceState) {
-        // if it is the tablet with landscape orientation, it will have three panes
+        // If it is the tablet with landscape orientation, it will have three panes
         if (findViewById(R.id.station_list_container) != null) {
             mMultiplePane = true;
         }
@@ -119,8 +137,7 @@ public class StateListActivity extends AppCompatActivity {
             if (mProgressDialog != null && mProgressDialog.isShowing()) {
                 mProgressDialog.dismiss();
             }
-            mProgressBar.setVisibility(View.GONE);
-            updateUI();
+            loadData();
         }
     };
 
@@ -145,7 +162,7 @@ public class StateListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Goes to the station list view but only show all the favorite stations
+                // Go to the station list view but only show all the favorite stations
                 mCurrentStateName = getString(R.string.favorite_stations);
                 onButtonClicked(mCurrentStateName);
                 Toast.makeText(StateListActivity.this, getString(R.string.got_favorite_stations), Toast.LENGTH_SHORT).show();

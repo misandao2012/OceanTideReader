@@ -16,7 +16,7 @@ public class Utils {
 
     private static final String TAG = "OceanTide";
 
-    //change the time format
+    //Change the time format
     public static String parseTideTime(String original) {
         SimpleDateFormat dateFormat;
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.US);

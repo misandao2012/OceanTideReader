@@ -19,7 +19,7 @@ public class WebService {
     private static final String TAG = "OceanTide Network";
 
 
-    //get the Json data back from url
+    // Get the Json data back from url
     public static String getJson(String theUrl) {
 
         StringBuilder content = new StringBuilder();
@@ -43,7 +43,7 @@ public class WebService {
         return content.toString();
     }
 
-    //check if there is network available
+    // Check if there is network available
     public static Boolean networkConnected(Context context){
 
         ConnectivityManager cm =
@@ -53,7 +53,7 @@ public class WebService {
                 activeNetwork.isConnectedOrConnecting();
     }
 
-    //show the dialog if no network
+    // Show the dialog if no network
     public static void showNetworkDialog(Context context) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

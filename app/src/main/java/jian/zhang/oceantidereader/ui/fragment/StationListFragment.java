@@ -78,6 +78,7 @@ public class StationListFragment extends Fragment {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, String stateName) {
 
         List<Station> stations;
+        // Should show the favorite station list or the station list by the state name
         if (stateName.equals(getString(R.string.favorite_stations))) {
             stations = StationManager.get(getActivity()).getStationsByFav();
             // Did not add any favorites yet
@@ -113,6 +114,7 @@ public class StationListFragment extends Fragment {
         public void bindStation(Station station) {
             mStationNameTextView.setText(station.getName());
             if (station.getFavorite().equals(Constants.FAVORITE_TRUE)) {
+                // If the station is favorite, then mark it as RED "FAV"
                 mFavoriteLabelTextView.setVisibility(View.VISIBLE);
             } else {
                 mFavoriteLabelTextView.setVisibility(View.INVISIBLE);
@@ -126,8 +128,10 @@ public class StationListFragment extends Fragment {
             String stationId = station.getStationId();
             String stationName = station.getName();
             if (mMultiplePane) {
+                // If multiple panes, then replace the fragment
                 replaceStationDetailFragment(stationId, stationName);
             } else {
+                // If single pane, then start a new activity
                 startStationDetailActivity(stationId, stationName);
             }
         }

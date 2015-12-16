@@ -10,6 +10,9 @@ import jian.zhang.oceantidereader.domainobjects.Station;
 /**
  * Created by jian on 12/14/2015.
  */
+
+/* Singleton Station Manager to wrap up database functions
+* */
 public class StationManager {
     private static StationManager sStationManager;
 

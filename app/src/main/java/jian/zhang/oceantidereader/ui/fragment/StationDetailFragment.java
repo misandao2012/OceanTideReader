@@ -96,7 +96,7 @@ public class StationDetailFragment extends Fragment {
         }
     }
 
-    //get the tide info list for the low or high
+    // get the tide info list for the low or high
     private List<Tide> getTideList(String jsonData, String lowOrHigh) throws JSONException {
         List<Tide> tideList = new ArrayList<>();
         JSONObject jTideObj = new JSONObject(jsonData);
@@ -113,6 +113,8 @@ public class StationDetailFragment extends Fragment {
         return tideList;
     }
 
+
+    // Call the api with station Id to get the station detail information
     private class GetStationDetailTask extends AsyncTask<Void, Void, String> {
         @Override
         protected void onPreExecute() {
@@ -128,18 +130,24 @@ public class StationDetailFragment extends Fragment {
         protected void onPostExecute(final String jsonData) {
             super.onPostExecute(jsonData);
             mProgressBar.setVisibility(View.GONE);
-            List<Tide> tideList = new ArrayList<>();
-            try {
-                tideList.addAll(getTideList(jsonData, "Low"));
-                tideList.addAll(getTideList(jsonData, "High"));
-            } catch (JSONException e) {
-                Log.e(TAG, e.getMessage());
-            }
+            List<Tide> tideList = setupTideList(jsonData);
             setupTideList(tideList);
             setupShareFeature(tideList);
         }
     }
 
+    private List<Tide> setupTideList(String jsonData){
+        List<Tide> tideList = new ArrayList<>();
+        try {
+            tideList.addAll(getTideList(jsonData, "Low"));
+            tideList.addAll(getTideList(jsonData, "High"));
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return tideList;
+    }
+
+    // If the favorite check box is checked, the favorite feature will be updated to the database
     private void setupFavCheckBoxFeature(View rootView) {
         CheckBox favoriteCheck = (CheckBox) rootView.findViewById(R.id.favorite_check);
         initFavCheckBox(favoriteCheck);
@@ -219,6 +227,7 @@ public class StationDetailFragment extends Fragment {
         public void bindTide(Tide tide) {
             mTimeTextView.setText(Utils.parseTideTime(tide.getTime()));
             mFeetTextView.setText(tide.getFeet());
+            // Indicate the tide is low or high
             mLowOrHighTextView.setText(getString(R.string.low_or_high, tide.getLowOrHigh()));
         }
     }

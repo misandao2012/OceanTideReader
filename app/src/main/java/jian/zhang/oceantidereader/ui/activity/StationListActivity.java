@@ -20,14 +20,14 @@ public class StationListActivity extends AppCompatActivity {
         setContentView(R.layout.station_list_activity);
 
         String stateName = getIntent().getStringExtra(IntentExtra.STATE_NAME);
-        setupToobar(stateName);
+        setupToolbar(stateName);
 
         if (savedInstanceState == null) {
             startStationListFragment(stateName);
         }
     }
 
-    private void setupToobar(String stateName   ){
+    private void setupToolbar(String stateName) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -38,7 +38,7 @@ public class StationListActivity extends AppCompatActivity {
         }
     }
 
-    private void startStationListFragment(String stateName){
+    private void startStationListFragment(String stateName) {
         Bundle bundle = new Bundle();
         bundle.putString(IntentExtra.STATE_NAME, stateName);
         bundle.putBoolean(IntentExtra.MULTIPLE_PANE, getIntent().getBooleanExtra(IntentExtra.MULTIPLE_PANE, false));
