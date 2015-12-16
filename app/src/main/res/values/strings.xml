@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">OceanTideReader</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="network_titile">Network</string>
+    <string name="network_message">Check the internet connection, and try again.</string>
+    <string name="tides">Tides:</string>
+    <string name="time">Time:</string>
+    <string name="feet">Feet:</string>
+    <string name="low_or_high">(%s)</string>
+    <string name="state_list">State list for tide stations</string>
+    <string name="check_for_favorite">Check for Favorite</string>
+    <string name="fav_label">Fav</string>
+    <string name="favorite_stations">Favorite Stations</string>
+    <string name="got_favorite_stations">Got Favorite Stations</string>
+    <string name="share_tide_infomation">Share tide information to..</string>
+    <string name="loading_message">Loading only once...Please wait...</string>
+    <string name="no_favorite_message">No favorites yet</string>
+</resources>

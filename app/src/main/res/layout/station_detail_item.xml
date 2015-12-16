@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp" >
+
+    <TextView
+        android:id="@+id/time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time"
+        android:textAppearance="?attr/textAppearanceListItem"/>
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/time_label"
+        android:layout_toEndOf="@id/time_label"
+        android:textAppearance="?attr/textAppearanceListItem"/>
+    <TextView
+        android:id="@+id/feet_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feet"
+        android:layout_below="@id/time_label"
+        android:textAppearance="?attr/textAppearanceListItem"/>
+    <TextView
+        android:id="@+id/tv_feet"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/feet_label"
+        android:layout_toEndOf="@id/feet_label"
+        android:layout_below="@id/time_label"
+        android:textAppearance="?attr/textAppearanceListItem"/>
+    <TextView
+        android:id="@+id/tv_lowOrHigh"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_feet"
+        android:layout_toEndOf="@id/tv_feet"
+        android:layout_below="@id/time_label"
+        android:textAppearance="?attr/textAppearanceListItem"/>
+
+</RelativeLayout>
