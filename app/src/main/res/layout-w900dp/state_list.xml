@@ -10,18 +10,12 @@
     android:orientation="horizontal"
     android:showDividers="middle"
     tools:context=".ui.activity.StationListActivity">
-    <!--
-    This layout is a two-pane layout for the Items
-    master/detail flow.
-    -->
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/state_list"
-        android:layout_width="@dimen/item_width"
+
+    <FrameLayout
+        android:id="@+id/state_list_container"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:layoutManager="LinearLayoutManager" />
+        android:layout_weight="2" />
 
     <FrameLayout
         android:id="@+id/station_list_container"

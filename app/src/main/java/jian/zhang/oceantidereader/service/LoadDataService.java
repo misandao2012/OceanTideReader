@@ -48,27 +48,44 @@ public class LoadDataService extends Service {
         @Override
         protected void onPostExecute(String jsonData) {
             super.onPostExecute(jsonData);
+            new SetUpDatabaseTask().execute(jsonData);
+        }
+    }
+
+    private class SetUpDatabaseTask extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... jsonData) {
             try {
-                setupStationDatabase(jsonData);
+                setupStationDatabase(jsonData[0]);
+                return true;
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
+                return false;
             }
-            setFirstTimeStartFalse();
-            // The loading is finish, then send the broadcast to the activity
-            sendFinishBroadcast();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result) {
+                setFirstTimeStartFalse();
+                // The loading is finish, then send the broadcast to the activity
+                sendFinishBroadcast();
+            }
             // stop the service after data loaded
             stopSelf();
         }
     }
 
-    private void setFirstTimeStartFalse(){
+    private void setFirstTimeStartFalse() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putBoolean(Preference.PREF_FIRST_TIME_START, false);
         editor.apply();
     }
 
-    private void sendFinishBroadcast(){
+    private void sendFinishBroadcast() {
         Intent loadIntent = new Intent(IntentExtra.FIRST_TIME_DATA_LOADED);
         LocalBroadcastManager.getInstance(LoadDataService.this).sendBroadcast(loadIntent);
     }

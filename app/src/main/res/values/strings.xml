@@ -7,7 +7,7 @@
     <string name="time">Time:</string>
     <string name="feet">Feet:</string>
     <string name="low_or_high">(%s)</string>
-    <string name="state_list">State list for tide stations</string>
+    <string name="app_title">Ocean Station Tides</string>
     <string name="check_for_favorite">Check for Favorite</string>
     <string name="fav_label">Fav</string>
     <string name="favorite_stations">Favorite Stations</string>

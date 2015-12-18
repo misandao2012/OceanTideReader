@@ -46,6 +46,7 @@ public class StationListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.station_list_fragment, container, false);
+        setupStateNameTextView(rootView);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.station_list);
         assert mRecyclerView != null;
         setupRecyclerView(mRecyclerView, mStateName);
@@ -180,6 +181,17 @@ public class StationListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mStations.size();
+        }
+    }
+
+    private void setupStateNameTextView(View rootView) {
+        TextView stateNameTextView = (TextView) rootView.findViewById(R.id.tv_state_name);
+        // If it is multiple panes, do not show the station subtitle
+        if (mMultiplePane) {
+            stateNameTextView.setVisibility(View.VISIBLE);
+            stateNameTextView.setText(mStateName);
+        } else {
+            stateNameTextView.setVisibility(View.INVISIBLE);
         }
     }
 }
