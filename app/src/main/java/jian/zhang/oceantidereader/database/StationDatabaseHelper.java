@@ -90,28 +90,6 @@ public class StationDatabaseHelper extends SQLiteOpenHelper {
         return new StationCursor(wrapped);
     }
 
-    private StationCursor queryStationById(String id) {
-        Cursor cursor = getReadableDatabase().query(TABLE_STATION,
-                null, COLUMN_STATION_ID + " = ?",
-                new String[]{id}, null, null, null, "1");
-        return new StationCursor(cursor);
-
-    }
-
-    // Get the station by the station Id
-    public Station getStationById(String id) {
-        StationCursor cursor = queryStationById(id);
-        try {
-            if (cursor.getCount() == 0) {
-                return null;
-            }
-            cursor.moveToFirst();
-            return cursor.getStation();
-        } finally {
-            cursor.close();
-        }
-    }
-
     public boolean updateCardByStation(Station station) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_FAVORITE, station.getFavorite());

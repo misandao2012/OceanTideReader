@@ -49,10 +49,6 @@ public class StationManager {
         return mDatabaseHelper.insertStation(station);
     }
 
-    public Station getStationById(String id){
-        return mDatabaseHelper.getStationById(id);
-    }
-
     public boolean updateCardByStation(Station station){
         return mDatabaseHelper.updateCardByStation(station);
     }

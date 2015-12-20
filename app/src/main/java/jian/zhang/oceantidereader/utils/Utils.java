@@ -1,5 +1,7 @@
 package jian.zhang.oceantidereader.utils;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 
 import java.text.ParseException;
@@ -31,5 +33,15 @@ public class Utils {
         dateFormat = new SimpleDateFormat("MM/dd/yy, h:mm a", Locale.US);
         dateFormat.setTimeZone(calendar.getTimeZone());
         return dateFormat.format(date);
+    }
+
+    // Locks the device window in portrait mode
+    public static void lockOrientationPortrait(Activity activity) {
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    // Allows user to freely use portrait or landscape mode
+    public static void unlockOrientation(Activity activity) {
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 }

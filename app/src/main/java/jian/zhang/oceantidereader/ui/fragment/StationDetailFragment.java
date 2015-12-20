@@ -67,8 +67,7 @@ public class StationDetailFragment extends Fragment {
     }
 
     private void initVariables(){
-        String stationId = getArguments().getString(IntentExtra.STATION_ID);
-        mStation = StationManager.get(getActivity()).getStationById(stationId);
+        mStation = getArguments().getParcelable(IntentExtra.STATION_PARCELABLE);
     }
 
     private void initViews(View rootView){
@@ -90,7 +89,7 @@ public class StationDetailFragment extends Fragment {
         // If it is multiple panes, do not show the station subtitle
         if (getArguments().getBoolean(IntentExtra.SHOW_STATION_SUBTITLE)) {
             stationNameTextView.setVisibility(View.VISIBLE);
-            stationNameTextView.setText(getArguments().getString(IntentExtra.STATION_NAME));
+            stationNameTextView.setText(mStation.getName());
         } else {
             stationNameTextView.setVisibility(View.INVISIBLE);
         }
@@ -151,7 +150,6 @@ public class StationDetailFragment extends Fragment {
     private void setupFavCheckBoxFeature(View rootView) {
         CheckBox favoriteCheck = (CheckBox) rootView.findViewById(R.id.favorite_check);
         initFavCheckBox(favoriteCheck);
-
         favoriteCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

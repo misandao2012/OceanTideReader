@@ -4,8 +4,7 @@ package jian.zhang.oceantidereader.constants;
  * Created by jianzhang on 10/12/15.
  */
 public class IntentExtra {
-    public static final String STATION_ID = "STATION_ID";
-    public static final String STATION_NAME = "STATION_NAME";
+    public static final String STATION_PARCELABLE = "STATION_PARCELABLE";
     public static final String STATE_NAME = "STATE_NAME";
     public static final String MULTIPLE_PANE = "MULTIPLE_PANE";
     public static final String FAVORITE_CHANGED = "FAVORITE_CHANGED";

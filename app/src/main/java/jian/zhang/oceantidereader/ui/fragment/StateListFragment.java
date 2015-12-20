@@ -28,6 +28,7 @@ import jian.zhang.oceantidereader.network.WebService;
 import jian.zhang.oceantidereader.service.LoadDataService;
 import jian.zhang.oceantidereader.ui.activity.StateListActivity;
 import jian.zhang.oceantidereader.ui.activity.StationListActivity;
+import jian.zhang.oceantidereader.utils.Utils;
 
 /**
  * Created by jian on 12/16/2015.
@@ -37,7 +38,6 @@ public class StateListFragment extends Fragment implements StateListActivity.Cal
     private RecyclerView mStateRecyclerView;
     private boolean mMultiplePane;
     private Context mContext;
-
 
     // implement callback function to open the favorite stations view
     @Override
@@ -84,6 +84,7 @@ public class StateListFragment extends Fragment implements StateListActivity.Cal
         //check if it is the first time install the App
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         if (sharedPrefs.getBoolean(Preference.PREF_FIRST_TIME_START, true)) {
+            Utils.lockOrientationPortrait(getActivity());
             startLoadingDataService();
         } else {
             loadData();
@@ -105,6 +106,7 @@ public class StateListFragment extends Fragment implements StateListActivity.Cal
     private void updateUI(List<Station> stations) {
         StationAdapter adapter = new StationAdapter(stations);
         mStateRecyclerView.setAdapter(adapter);
+        Utils.unlockOrientation(getActivity());
     }
 
     private BroadcastReceiver onDataLoaded = new BroadcastReceiver() {
@@ -125,7 +127,6 @@ public class StateListFragment extends Fragment implements StateListActivity.Cal
 
         @Override
         protected void onPreExecute() {
-
             if (mContext instanceof StateListActivity) {
                 ((StateListActivity) mContext).getProgressBar().setVisibility(View.VISIBLE);
             }
@@ -245,4 +246,6 @@ public class StateListFragment extends Fragment implements StateListActivity.Cal
             return mStations.size();
         }
     }
+
+
 }

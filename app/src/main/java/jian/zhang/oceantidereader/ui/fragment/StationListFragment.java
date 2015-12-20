@@ -5,8 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,10 +19,10 @@ import android.widget.Toast;
 import java.util.List;
 
 import jian.zhang.oceantidereader.R;
-import jian.zhang.oceantidereader.manager.StationManager;
 import jian.zhang.oceantidereader.constants.Constants;
 import jian.zhang.oceantidereader.constants.IntentExtra;
 import jian.zhang.oceantidereader.domainobjects.Station;
+import jian.zhang.oceantidereader.loader.StationsByStateLoader;
 import jian.zhang.oceantidereader.ui.activity.StationDetailActivity;
 
 /**
@@ -35,6 +36,7 @@ public class StationListFragment extends Fragment {
     private boolean mMultiplePane;
     private String mStateName;
     private RecyclerView mRecyclerView;
+    private StationListLoaderCallbacks mStationListLoaderCallbacks;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,8 @@ public class StationListFragment extends Fragment {
         setupStateNameTextView(rootView);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.station_list);
         assert mRecyclerView != null;
-        setupRecyclerView(mRecyclerView, mStateName);
+        initLoader();
         registerFavChangedReceiver();
-
         return rootView;
     }
 
@@ -61,13 +62,19 @@ public class StationListFragment extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(onFavoriteChanged);
     }
 
+    private void initLoader() {
+        mStationListLoaderCallbacks = new StationListLoaderCallbacks();
+        getLoaderManager().initLoader(1, null, mStationListLoaderCallbacks);
+    }
+
     /*
-    * If the favorite status changed, then refresh the recyclerView
+    * If the favorite status changed, then restart the loader and refresh the recyclerView
     * */
     private BroadcastReceiver onFavoriteChanged = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            setupRecyclerView(mRecyclerView, mStateName);
+            // reload the data when the favorite status changed
+            getLoaderManager().restartLoader(1, null, mStationListLoaderCallbacks);
         }
     };
 
@@ -76,21 +83,30 @@ public class StationListFragment extends Fragment {
         mMultiplePane = getArguments().getBoolean(IntentExtra.MULTIPLE_PANE);
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView, String stateName) {
-
-        List<Station> stations;
-        // Should show the favorite station list or the station list by the state name
-        if (stateName.equals(getString(R.string.favorite_stations))) {
-            stations = StationManager.get(getActivity()).getStationsByFav();
-            // Did not add any favorites yet
-            if (stations.size() == 0) {
-                Toast.makeText(getActivity(), getString(R.string.no_favorite_message), Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            stations = StationManager.get(getActivity()).getStationsByState(stateName);
+    private class StationListLoaderCallbacks implements LoaderManager.LoaderCallbacks<List<Station>> {
+        @Override
+        public Loader<List<Station>> onCreateLoader(int id, Bundle bundle) {
+            return new StationsByStateLoader(getActivity(), mStateName);
         }
-        StationAdapter adapter = new StationAdapter(stations);
-        recyclerView.setAdapter(adapter);
+
+        @Override
+        public void onLoadFinished(Loader<List<Station>> loader, List<Station> stationList) {
+            setupRecyclerViewAdapter(stationList);
+        }
+
+        @Override
+        public void onLoaderReset(Loader<List<Station>> loader) {
+            mRecyclerView.setAdapter(null);
+        }
+    }
+
+    private void setupRecyclerViewAdapter(List<Station> stationList){
+        StationAdapter adapter = new StationAdapter(stationList);
+        // if there is no favorite stations yet
+        if (stationList.size() == 0 && mStateName.equals(getString(R.string.favorite_stations))) {
+            Toast.makeText(getActivity(), getActivity().getString(R.string.no_favorite_message), Toast.LENGTH_SHORT).show();
+        }
+        mRecyclerView.setAdapter(adapter);
     }
 
     private void registerFavChangedReceiver() {
@@ -126,22 +142,19 @@ public class StationListFragment extends Fragment {
         @Override
         public void onClick(View view) {
             Station station = (Station) mItemView.getTag();
-            String stationId = station.getStationId();
-            String stationName = station.getName();
             if (mMultiplePane) {
                 // If multiple panes, then replace the fragment
-                replaceStationDetailFragment(stationId, stationName);
+                replaceStationDetailFragment(station);
             } else {
                 // If single pane, then start a new activity
-                startStationDetailActivity(stationId, stationName);
+                startStationDetailActivity(station);
             }
         }
     }
 
-    private void replaceStationDetailFragment(String stationId, String stationName) {
+    private void replaceStationDetailFragment(Station station) {
         Bundle bundle = new Bundle();
-        bundle.putString(IntentExtra.STATION_ID, stationId);
-        bundle.putString(IntentExtra.STATION_NAME, stationName);
+        bundle.putParcelable(IntentExtra.STATION_PARCELABLE, station);
         bundle.putBoolean(IntentExtra.SHOW_STATION_SUBTITLE, true);
         StationDetailFragment fragment = new StationDetailFragment();
         fragment.setArguments(bundle);
@@ -150,10 +163,9 @@ public class StationListFragment extends Fragment {
                 .commit();
     }
 
-    private void startStationDetailActivity(String stationId, String stationName) {
+    private void startStationDetailActivity(Station station) {
         Intent intent = new Intent(getActivity(), StationDetailActivity.class);
-        intent.putExtra(IntentExtra.STATION_ID, stationId);
-        intent.putExtra(IntentExtra.STATION_NAME, stationName);
+        intent.putExtra(IntentExtra.STATION_PARCELABLE, station);
         intent.putExtra(IntentExtra.SHOW_STATION_SUBTITLE, false);
         getActivity().startActivity(intent);
     }

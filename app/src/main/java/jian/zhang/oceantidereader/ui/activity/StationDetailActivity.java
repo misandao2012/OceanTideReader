@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import jian.zhang.oceantidereader.R;
 import jian.zhang.oceantidereader.constants.IntentExtra;
+import jian.zhang.oceantidereader.domainobjects.Station;
 import jian.zhang.oceantidereader.ui.fragment.StationDetailFragment;
 
 /**
@@ -22,31 +23,29 @@ public class StationDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.station_detail_activity);
-        String stationName = getIntent().getStringExtra(IntentExtra.STATION_NAME);
-        setupToolbar(stationName);
+        Station station = getIntent().getParcelableExtra(IntentExtra.STATION_PARCELABLE);
+        setupToolbar(station);
 
         if (savedInstanceState == null) {
-            addStationDetailFragment(stationName);
+            addStationDetailFragment(station);
         }
     }
 
-    private void setupToolbar(String stationName){
+    private void setupToolbar(Station station){
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(stationName);
+            actionBar.setTitle(station.getName());
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
-    private void addStationDetailFragment(String stationName){
+    private void addStationDetailFragment(Station station){
         Bundle bundle = new Bundle();
-        bundle.putString(IntentExtra.STATION_ID,
-                getIntent().getStringExtra(IntentExtra.STATION_ID));
-        bundle.putString(IntentExtra.STATION_NAME, stationName);
+        bundle.putParcelable(IntentExtra.STATION_PARCELABLE, station);
         bundle.putBoolean(IntentExtra.SHOW_STATION_SUBTITLE, getIntent().getBooleanExtra(IntentExtra.SHOW_STATION_SUBTITLE, false));
         StationDetailFragment fragment = new StationDetailFragment();
         fragment.setArguments(bundle);
