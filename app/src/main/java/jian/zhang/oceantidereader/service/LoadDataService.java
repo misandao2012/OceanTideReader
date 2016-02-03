@@ -42,7 +42,7 @@ public class LoadDataService extends Service {
 
         @Override
         protected String doInBackground(Void... params) {
-            return WebService.getJson(Constants.OCEAN_CANDY_BASE_URL);
+            return WebService.getJson(Constants.OCEAN_CANDY_BASE_URL2);
         }
 
         @Override
