@@ -100,9 +100,10 @@ public class StateListActivity extends AppCompatActivity{
     private void startStateListFragment() {
         FragmentManager manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentById(R.id.state_list_container);
+        // it is possible two fragments overlap together
         if (fragment == null) {
             fragment = new StateListFragment();
-            getSupportFragmentManager().beginTransaction()
+            manager.beginTransaction()
                     .add(R.id.state_list_container, fragment)
                     .commit();
         }
