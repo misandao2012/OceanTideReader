@@ -1,3 +1,4 @@
+
 package jian.zhang.oceantidereader.constants;
 
 /**
@@ -9,3 +10,4 @@ public class Constants {
     public static final String FAVORITE_TRUE = "FAVORITE_TRUE";
     public static final String FAVORITE_FALSE = "FAVORITE_FALSE";
 }
+
