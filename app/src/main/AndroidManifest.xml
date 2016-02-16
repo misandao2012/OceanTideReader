@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="jian.zhang.oceanwithlibrary">
+    package="jian.zhang.oceantidereader">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="jian.zhang.oceanwithlibrary.ui.activity.StateListActivity"
+            android:name="jian.zhang.oceantidereader.ui.activity.StateListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,19 +21,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="jian.zhang.oceanwithlibrary.ui.activity.StationListActivity"
+            android:name="jian.zhang.oceantidereader.ui.activity.StationListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name="jian.zhang.oceanwithlibrary.ui.activity.StationDetailActivity"
+            android:name="jian.zhang.oceantidereader.ui.activity.StationDetailActivity"
             android:label="@string/title_item_detail"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="jian.zhang.oceanwithlibrary.ui.activity.StationListActivity" />
+                android:value="jian.zhang.oceantidereader.ui.activity.StationListActivity" />
         </activity>
-        <service android:name="jian.zhang.oceanwithlibrary.service.LoadDataService" />
+        <service android:name="jian.zhang.oceantidereader.service.LoadDataService" />
     </application>
 
 </manifest>
