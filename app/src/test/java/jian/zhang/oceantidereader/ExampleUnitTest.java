@@ -1,4 +1,4 @@
-package jian.zhang.oceantidereader;
+package jian.zhang.oceanwithlibrary;
 
 import org.junit.Test;
 
